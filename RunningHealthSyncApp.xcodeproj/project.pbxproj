@@ -1,0 +1,352 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000000000000000000001 /* RunningHealthSyncAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* RunningHealthSyncAppApp.swift */; };
+		A10000000000000000000002 /* AppModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* AppModels.swift */; };
+		A10000000000000000000003 /* AppServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* AppServices.swift */; };
+		A10000000000000000000004 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000004 /* DashboardViewModel.swift */; };
+		A10000000000000000000005 /* NaturalLanguageQueryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000005 /* NaturalLanguageQueryViewModel.swift */; };
+		A10000000000000000000006 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* ReportViewModel.swift */; };
+		A10000000000000000000007 /* InsightViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000007 /* InsightViewModel.swift */; };
+		A10000000000000000000008 /* RecommendationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* RecommendationViewModel.swift */; };
+		A10000000000000000000009 /* StructuredQueryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000009 /* StructuredQueryViewModel.swift */; };
+		A1000000000000000000000A /* SharedViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000A /* SharedViews.swift */; };
+		A1000000000000000000000B /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000B /* DashboardView.swift */; };
+		A1000000000000000000000C /* NaturalLanguageQueryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000C /* NaturalLanguageQueryView.swift */; };
+		A1000000000000000000000D /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000D /* ReportView.swift */; };
+		A1000000000000000000000E /* InsightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000E /* InsightView.swift */; };
+			A1000000000000000000000F /* RecommendationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000F /* RecommendationView.swift */; };
+			A10000000000000000000010 /* StructuredQueryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000010 /* StructuredQueryView.swift */; };
+			A10000000000000000000011 /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000011 /* PreviewData.swift */; };
+			A10000000000000000000012 /* AppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000014 /* AppPreferences.swift */; };
+			A10000000000000000000013 /* PersonalizedRunningHealthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000015 /* PersonalizedRunningHealthService.swift */; };
+			A10000000000000000000014 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000016 /* SettingsView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A20000000000000000000001 /* RunningHealthSyncAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningHealthSyncAppApp.swift; sourceTree = "<group>"; };
+		A20000000000000000000002 /* AppModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModels.swift; sourceTree = "<group>"; };
+		A20000000000000000000003 /* AppServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServices.swift; sourceTree = "<group>"; };
+		A20000000000000000000004 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		A20000000000000000000005 /* NaturalLanguageQueryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaturalLanguageQueryViewModel.swift; sourceTree = "<group>"; };
+		A20000000000000000000006 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
+		A20000000000000000000007 /* InsightViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightViewModel.swift; sourceTree = "<group>"; };
+		A20000000000000000000008 /* RecommendationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationViewModel.swift; sourceTree = "<group>"; };
+		A20000000000000000000009 /* StructuredQueryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructuredQueryViewModel.swift; sourceTree = "<group>"; };
+		A2000000000000000000000A /* SharedViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedViews.swift; sourceTree = "<group>"; };
+		A2000000000000000000000B /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		A2000000000000000000000C /* NaturalLanguageQueryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaturalLanguageQueryView.swift; sourceTree = "<group>"; };
+		A2000000000000000000000D /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
+		A2000000000000000000000E /* InsightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightView.swift; sourceTree = "<group>"; };
+		A2000000000000000000000F /* RecommendationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationView.swift; sourceTree = "<group>"; };
+			A20000000000000000000010 /* StructuredQueryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructuredQueryView.swift; sourceTree = "<group>"; };
+			A20000000000000000000011 /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
+			A20000000000000000000012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+			A20000000000000000000013 /* RunningHealthSyncApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = RunningHealthSyncApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+			A20000000000000000000014 /* AppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreferences.swift; sourceTree = "<group>"; };
+			A20000000000000000000015 /* PersonalizedRunningHealthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizedRunningHealthService.swift; sourceTree = "<group>"; };
+			A20000000000000000000016 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A30000000000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A40000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				A40000000000000000000002 /* RunningHealthSyncApp */,
+				A40000000000000000000008 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A40000000000000000000002 /* RunningHealthSyncApp */ = {
+			isa = PBXGroup;
+			children = (
+				A40000000000000000000003 /* App */,
+				A40000000000000000000004 /* Models */,
+				A40000000000000000000005 /* Services */,
+				A40000000000000000000006 /* ViewModels */,
+				A40000000000000000000007 /* Views */,
+				A40000000000000000000009 /* Preview */,
+				A20000000000000000000012 /* Info.plist */,
+			);
+			path = RunningHealthSyncApp;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000003 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000001 /* RunningHealthSyncAppApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+			A40000000000000000000004 /* Models */ = {
+				isa = PBXGroup;
+				children = (
+					A20000000000000000000002 /* AppModels.swift */,
+					A20000000000000000000014 /* AppPreferences.swift */,
+				);
+				path = Models;
+				sourceTree = "<group>";
+			};
+			A40000000000000000000005 /* Services */ = {
+				isa = PBXGroup;
+				children = (
+					A20000000000000000000003 /* AppServices.swift */,
+					A20000000000000000000015 /* PersonalizedRunningHealthService.swift */,
+				);
+				path = Services;
+				sourceTree = "<group>";
+			};
+		A40000000000000000000006 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000004 /* DashboardViewModel.swift */,
+				A20000000000000000000005 /* NaturalLanguageQueryViewModel.swift */,
+				A20000000000000000000006 /* ReportViewModel.swift */,
+					A20000000000000000000007 /* InsightViewModel.swift */,
+					A20000000000000000000008 /* RecommendationViewModel.swift */,
+						A20000000000000000000009 /* StructuredQueryViewModel.swift */,
+					);
+					path = ViewModels;
+					sourceTree = "<group>";
+			};
+		A40000000000000000000007 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A2000000000000000000000A /* SharedViews.swift */,
+				A2000000000000000000000B /* DashboardView.swift */,
+				A2000000000000000000000C /* NaturalLanguageQueryView.swift */,
+				A2000000000000000000000D /* ReportView.swift */,
+					A2000000000000000000000E /* InsightView.swift */,
+					A2000000000000000000000F /* RecommendationView.swift */,
+					A20000000000000000000010 /* StructuredQueryView.swift */,
+					A20000000000000000000016 /* SettingsView.swift */,
+				);
+				path = Views;
+				sourceTree = "<group>";
+			};
+		A40000000000000000000008 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000013 /* RunningHealthSyncApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A40000000000000000000009 /* Preview */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000011 /* PreviewData.swift */,
+			);
+			path = Preview;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A50000000000000000000001 /* RunningHealthSyncApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A70000000000000000000002 /* Build configuration list for PBXNativeTarget "RunningHealthSyncApp" */;
+			buildPhases = (
+				A30000000000000000000002 /* Sources */,
+				A30000000000000000000001 /* Frameworks */,
+				A30000000000000000000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RunningHealthSyncApp;
+			productName = RunningHealthSyncApp;
+			productReference = A20000000000000000000013 /* RunningHealthSyncApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A60000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					A50000000000000000000001 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = A70000000000000000000001 /* Build configuration list for PBXProject "RunningHealthSyncApp" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A40000000000000000000001;
+			productRefGroup = A40000000000000000000008 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A50000000000000000000001 /* RunningHealthSyncApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A30000000000000000000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A30000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000001 /* RunningHealthSyncAppApp.swift in Sources */,
+				A10000000000000000000002 /* AppModels.swift in Sources */,
+				A10000000000000000000003 /* AppServices.swift in Sources */,
+				A10000000000000000000004 /* DashboardViewModel.swift in Sources */,
+				A10000000000000000000005 /* NaturalLanguageQueryViewModel.swift in Sources */,
+				A10000000000000000000006 /* ReportViewModel.swift in Sources */,
+				A10000000000000000000007 /* InsightViewModel.swift in Sources */,
+				A10000000000000000000008 /* RecommendationViewModel.swift in Sources */,
+				A10000000000000000000009 /* StructuredQueryViewModel.swift in Sources */,
+				A1000000000000000000000A /* SharedViews.swift in Sources */,
+				A1000000000000000000000B /* DashboardView.swift in Sources */,
+				A1000000000000000000000C /* NaturalLanguageQueryView.swift in Sources */,
+				A1000000000000000000000D /* ReportView.swift in Sources */,
+				A1000000000000000000000E /* InsightView.swift in Sources */,
+					A1000000000000000000000F /* RecommendationView.swift in Sources */,
+					A10000000000000000000010 /* StructuredQueryView.swift in Sources */,
+					A10000000000000000000011 /* PreviewData.swift in Sources */,
+					A10000000000000000000012 /* AppPreferences.swift in Sources */,
+					A10000000000000000000013 /* PersonalizedRunningHealthService.swift in Sources */,
+						A10000000000000000000014 /* SettingsView.swift in Sources */,
+					);
+					runOnlyForDeploymentPostprocessing = 0;
+				};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A80000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A80000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		A80000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = RunningHealthSyncApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.RunningHealthSyncApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A80000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = RunningHealthSyncApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.RunningHealthSyncApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A70000000000000000000001 /* Build configuration list for PBXProject "RunningHealthSyncApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A80000000000000000000001 /* Debug */,
+				A80000000000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A70000000000000000000002 /* Build configuration list for PBXNativeTarget "RunningHealthSyncApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A80000000000000000000003 /* Debug */,
+				A80000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A60000000000000000000001 /* Project object */;
+}
