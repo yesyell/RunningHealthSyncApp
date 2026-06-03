@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @ObservedObject var preferences: AppPreferencesStore
+    @ObservedObject private var sessionStore = KeychainSessionStore.shared
 
     var body: some View {
         AppScreen(
@@ -33,6 +34,20 @@ struct SettingsView: View {
                                 .strokeBorder(AppTheme.sky.opacity(0.12), lineWidth: 1)
                         )
                         .clipShape(RoundedRectangle(cornerRadius: 16))
+                }
+            }
+
+            SectionCard(title: "Strava 연결", systemImage: "figure.run.circle", accent: AppTheme.coral) {
+                Text(sessionStore.isLoggedIn ? "Strava 세션으로 서버에 연결되어 있습니다." : "Strava 세션이 없습니다. 다시 로그인해 주세요.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+
+                ActionButton(
+                    title: "로그아웃",
+                    systemImage: "rectangle.portrait.and.arrow.right",
+                    accent: AppTheme.coral
+                ) {
+                    sessionStore.clear()
                 }
             }
 

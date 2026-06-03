@@ -3,8 +3,17 @@ import Foundation
 struct AppConfiguration {
     let baseURL: URL
 
-    init(baseURL: URL = URL(string: "http://127.0.0.1:8080")!) {
+    init(baseURL: URL = AppConfiguration.defaultBaseURL) {
         self.baseURL = baseURL
+    }
+
+    private static var defaultBaseURL: URL {
+        if let configured = Bundle.main.object(forInfoDictionaryKey: "RunningHealthBaseURL") as? String,
+           let url = URL(string: configured),
+           !configured.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            return url
+        }
+        return URL(string: "https://runnershello.duckdns.org")!
     }
 }
 
@@ -72,6 +81,9 @@ final class HTTPClient {
         var request = URLRequest(url: baseURL.appendingPathComponent(normalizedPath))
         request.httpMethod = endpoint.method.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        if let token = KeychainSessionStore.shared.token {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
 
         if let body = endpoint.body {
             request.httpBody = try encoder.encode(AnyEncodable(body))
@@ -81,9 +93,17 @@ final class HTTPClient {
         guard let http = response as? HTTPURLResponse else {
             throw APIError.invalidResponse
         }
+        if http.statusCode == 401 {
+            KeychainSessionStore.shared.clear()
+            throw APIError.server("세션이 만료되었습니다. 다시 로그인해 주세요.")
+        }
         guard (200 ..< 300).contains(http.statusCode) else {
             if let errorPayload = try? decoder.decode([String: String].self, from: data),
                let message = errorPayload["error"] {
+                throw APIError.server(message)
+            }
+            if let errorPayload = try? decoder.decode([String: String].self, from: data),
+               let message = errorPayload["detail"] {
                 throw APIError.server(message)
             }
             throw APIError.server("서버 호출에 실패했습니다. status=\(http.statusCode)")
@@ -168,19 +188,81 @@ final class RunningHealthAPIService: RunningHealthServiceProviding {
     }
 
     func fetchStructuredQuery(metric: String, period: String, limit: Int) async throws -> HealthQueryResponse {
-        try await callTool(name: "health_query", arguments: [
-            "metric": .string(metric),
-            "period": .string(period),
-            "limit": .integer(limit),
+        let sql = Self.buildSQL(metric: metric, period: period, limit: limit)
+        return try await callTool(name: "health_query", arguments: [
+            "sql": .string(sql),
         ])
     }
 
     private func callTool<Response: Decodable>(name: String, arguments: [String: JSONValue]) async throws -> Response {
-        let envelope: ToolCallEnvelope<Response> = try await client.send(
-            Endpoint(path: "/api/call-tool", method: .post, body: ToolCallRequest(name: name, arguments: arguments)),
+        return try await client.send(
+            Endpoint(path: "/api/call/\(name)", method: .post, body: arguments),
             baseURL: configuration.baseURL
         )
-        return envelope.result
+    }
+
+    private static func buildSQL(metric: String, period: String, limit: Int) -> String {
+        let safeLimit = min(max(limit, 1), 100)
+        if period == "monthly" {
+            return """
+            SELECT
+              STRFTIME('%Y-%m-01', rs.session_date) AS month_start,
+              COUNT(*) AS session_count,
+              ROUND(SUM(rs.distance_km), 2) AS total_km,
+              ROUND(AVG(p.pace_min_per_km), 2) AS avg_pace,
+              ROUND(AVG(rs.avg_hr), 1) AS avg_bpm
+            FROM running_sessions rs
+            LEFT JOIN v_running_pace p ON p.session_id = rs.id
+            WHERE rs.user_id = :user_id
+            GROUP BY month_start
+            ORDER BY month_start DESC
+            LIMIT \(safeLimit)
+            """
+        }
+        if period == "recent_sessions" {
+            return """
+            SELECT
+              session_date,
+              id AS session_id,
+              distance_km,
+              duration_min,
+              avg_pace_min_km AS pace_min_per_km,
+              avg_hr AS avg_bpm
+            FROM running_sessions
+            WHERE user_id = :user_id
+            ORDER BY started_at DESC
+            LIMIT \(safeLimit)
+            """
+        }
+        if metric == "pace" {
+            return """
+            SELECT session_date, pace_min_per_km, moving_km
+            FROM v_running_pace
+            WHERE user_id = :user_id
+            ORDER BY session_date DESC
+            LIMIT \(safeLimit)
+            """
+        }
+        if metric == "heart_rate" {
+            return """
+            SELECT
+              DATE(session_date, 'weekday 1', '-7 days') AS week_start,
+              ROUND(AVG(avg_hr), 1) AS avg_bpm,
+              COUNT(*) AS session_count
+            FROM running_sessions
+            WHERE user_id = :user_id
+            GROUP BY week_start
+            ORDER BY week_start DESC
+            LIMIT \(safeLimit)
+            """
+        }
+        return """
+        SELECT week_start, session_count, total_km, avg_pace
+        FROM v_weekly_summary
+        WHERE user_id = :user_id
+        ORDER BY week_start DESC
+        LIMIT \(safeLimit)
+        """
     }
 }
 

@@ -27,6 +27,9 @@
 			A10000000000000000000012 /* AppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000014 /* AppPreferences.swift */; };
 			A10000000000000000000013 /* PersonalizedRunningHealthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000015 /* PersonalizedRunningHealthService.swift */; };
 			A10000000000000000000014 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000016 /* SettingsView.swift */; };
+			A10000000000000000000015 /* KeychainSessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000017 /* KeychainSessionStore.swift */; };
+			A10000000000000000000016 /* StravaAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000018 /* StravaAuthManager.swift */; };
+			A10000000000000000000017 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000019 /* LoginView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +55,9 @@
 			A20000000000000000000014 /* AppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreferences.swift; sourceTree = "<group>"; };
 			A20000000000000000000015 /* PersonalizedRunningHealthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizedRunningHealthService.swift; sourceTree = "<group>"; };
 			A20000000000000000000016 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+			A20000000000000000000017 /* KeychainSessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainSessionStore.swift; sourceTree = "<group>"; };
+			A20000000000000000000018 /* StravaAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StravaAuthManager.swift; sourceTree = "<group>"; };
+			A20000000000000000000019 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				A40000000000000000000003 /* App */,
+				A4000000000000000000000A /* Auth */,
 				A40000000000000000000004 /* Models */,
 				A40000000000000000000005 /* Services */,
 				A40000000000000000000006 /* ViewModels */,
@@ -155,6 +162,16 @@
 				A20000000000000000000011 /* PreviewData.swift */,
 			);
 			path = Preview;
+			sourceTree = "<group>";
+		};
+		A4000000000000000000000A /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000017 /* KeychainSessionStore.swift */,
+				A20000000000000000000018 /* StravaAuthManager.swift */,
+				A20000000000000000000019 /* LoginView.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,6 +262,9 @@
 					A10000000000000000000012 /* AppPreferences.swift in Sources */,
 					A10000000000000000000013 /* PersonalizedRunningHealthService.swift in Sources */,
 						A10000000000000000000014 /* SettingsView.swift in Sources */,
+						A10000000000000000000015 /* KeychainSessionStore.swift in Sources */,
+						A10000000000000000000016 /* StravaAuthManager.swift in Sources */,
+						A10000000000000000000017 /* LoginView.swift in Sources */,
 					);
 					runOnlyForDeploymentPostprocessing = 0;
 				};
