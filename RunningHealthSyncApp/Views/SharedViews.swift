@@ -146,7 +146,7 @@ struct RootTabView: View {
             }
 
             NavigationStack {
-                SettingsView(preferences: preferences)
+                SettingsView(service: service, preferences: preferences)
             }
             .tabItem {
                 Label("설정", systemImage: "slider.horizontal.3")
