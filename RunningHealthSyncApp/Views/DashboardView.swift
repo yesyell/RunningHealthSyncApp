@@ -11,9 +11,10 @@ struct DashboardView: View {
     var body: some View {
         AppScreen(
             title: "러닝 대시보드",
-            subtitle: "목표, 주간 거리, 페이스, 회복, 추천 코스를 한 화면에서 봅니다.",
+            subtitle: "이번 주 거리, 페이스 흐름, 회복 신호, 추천 코스를 한 번에 봅니다.",
             state: viewModel.state,
-            accent: AppTheme.sky
+            accent: AppTheme.sky,
+            onRetry: { Task { await viewModel.load() } }
         ) {
             if let dashboard = viewModel.dashboard {
                 InsightBanner(
@@ -141,7 +142,7 @@ struct DashboardView: View {
                         }
                         .padding(14)
                         .background(AppTheme.sky.opacity(0.07))
-                        .clipShape(RoundedRectangle(cornerRadius: 18))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
                 }
             }

@@ -12,7 +12,7 @@ struct SettingsView: View {
     var body: some View {
         AppScreen(
             title: "러너 설정",
-            subtitle: "Strava 기록을 기준으로 목표와 추천 기본값을 조정합니다.",
+            subtitle: "목표, 선호 위치, 추천 기준을 내 러닝 스타일에 맞게 조정합니다.",
             state: .loaded,
             accent: AppTheme.sky
         ) {
@@ -59,11 +59,11 @@ struct SettingsView: View {
                     ActionButton(
                         title: isLoadingProfile ? "동기화 확인 중" : "Strava 기록 새로고침",
                         systemImage: "arrow.clockwise",
-                        accent: AppTheme.sky
+                        accent: AppTheme.sky,
+                        isLoading: isLoadingProfile
                     ) {
                         Task { await loadProfile() }
                     }
-                    .disabled(isLoadingProfile)
 
                     ActionButton(
                         title: "로그아웃",
@@ -87,10 +87,10 @@ struct SettingsView: View {
                         .padding(10)
                         .background(.white.opacity(0.82))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 16)
+                            RoundedRectangle(cornerRadius: 8)
                                 .strokeBorder(AppTheme.sky.opacity(0.12), lineWidth: 1)
                         )
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
             }
 

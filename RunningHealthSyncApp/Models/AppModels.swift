@@ -403,10 +403,14 @@ struct NaturalLanguageResponse: Codable {
     let reply: String
 }
 
-enum ViewState {
+enum ViewState: Equatable {
     case idle
     case loading
     case loaded
     case empty(String)
     case failed(String)
+
+    var isLoading: Bool {
+        self == .loading
+    }
 }

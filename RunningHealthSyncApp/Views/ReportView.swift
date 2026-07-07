@@ -13,7 +13,8 @@ struct ReportView: View {
             title: "리포트",
             subtitle: "주간/월간 리포트를 조회하고 누적 거리와 평균 페이스를 확인합니다.",
             state: viewModel.state,
-            accent: AppTheme.mint
+            accent: AppTheme.mint,
+            onRetry: { Task { await viewModel.load() } }
         ) {
             InsightBanner(
                 eyebrow: "리포트",
@@ -34,7 +35,7 @@ struct ReportView: View {
                     Slider(value: $viewModel.n, in: 1 ... 12, step: 1)
                 }
 
-                ActionButton(title: "리포트 조회", systemImage: "chart.bar", accent: AppTheme.mint) {
+                ActionButton(title: "리포트 조회", systemImage: "chart.bar", accent: AppTheme.mint, isLoading: viewModel.state.isLoading) {
                     Task { await viewModel.load() }
                 }
             }

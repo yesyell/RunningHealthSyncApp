@@ -4,12 +4,13 @@ import UIKit
 
 enum AppTheme {
     static let ink = Color(red: 0.11, green: 0.17, blue: 0.27)
+    static let mutedInk = Color(red: 0.40, green: 0.47, blue: 0.58)
     static let sky = Color(red: 0.30, green: 0.63, blue: 0.96)
     static let mint = Color(red: 0.36, green: 0.80, blue: 0.70)
     static let coral = Color(red: 0.99, green: 0.53, blue: 0.42)
-    static let sand = Color(red: 0.95, green: 0.97, blue: 0.99)
-    static let card = Color.white.opacity(0.86)
-    static let shadow = Color.black.opacity(0.08)
+    static let background = Color(red: 0.97, green: 0.98, blue: 0.99)
+    static let card = Color.white.opacity(0.94)
+    static let shadow = Color.black.opacity(0.06)
 }
 
 enum ResponsiveLayout {
@@ -163,23 +164,28 @@ struct AppScreen<Content: View>: View {
     let subtitle: String
     let state: ViewState
     let accent: Color
+    var onRetry: (() -> Void)?
     let content: Content
 
-    init(title: String, subtitle: String, state: ViewState, accent: Color = AppTheme.sky, @ViewBuilder content: () -> Content) {
+    init(
+        title: String,
+        subtitle: String,
+        state: ViewState,
+        accent: Color = AppTheme.sky,
+        onRetry: (() -> Void)? = nil,
+        @ViewBuilder content: () -> Content
+    ) {
         self.title = title
         self.subtitle = subtitle
         self.state = state
         self.accent = accent
+        self.onRetry = onRetry
         self.content = content()
     }
 
     var body: some View {
         ZStack {
-            LinearGradient(
-                colors: [AppTheme.sand, accent.opacity(0.14), AppTheme.mint.opacity(0.12)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
+            AppTheme.background
             .ignoresSafeArea()
 
             ScrollView {
@@ -194,9 +200,23 @@ struct AppScreen<Content: View>: View {
                         SkeletonScreen(accent: accent)
                             .transition(.opacity)
                     case let .empty(message):
-                        StatusCard(title: "빈 데이터", message: message, tint: accent)
+                        StatusCard(
+                            title: "표시할 기록이 없습니다",
+                            message: message,
+                            systemImage: "tray",
+                            tint: accent,
+                            actionTitle: onRetry == nil ? nil : "다시 확인",
+                            action: onRetry
+                        )
                     case let .failed(message):
-                        StatusCard(title: "오류", message: message, tint: .red)
+                        StatusCard(
+                            title: "불러오지 못했습니다",
+                            message: message,
+                            systemImage: "exclamationmark.triangle",
+                            tint: .red,
+                            actionTitle: onRetry == nil ? nil : "다시 시도",
+                            action: onRetry
+                        )
                     }
                 }
                 .padding(.horizontal, 20)
@@ -227,26 +247,42 @@ struct AppScreen<Content: View>: View {
 struct StatusCard: View {
     let title: String
     let message: String
+    var systemImage: String = "exclamationmark.bubble"
     let tint: Color
+    var actionTitle: String?
+    var action: (() -> Void)?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Label(title, systemImage: "exclamationmark.bubble")
+        VStack(alignment: .leading, spacing: 12) {
+            Label(title, systemImage: systemImage)
                 .font(.headline.weight(.semibold))
                 .foregroundStyle(tint)
             Text(message)
                 .font(.body)
                 .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            if let actionTitle, let action {
+                Button(action: action) {
+                    Label(actionTitle, systemImage: "arrow.clockwise")
+                        .font(.subheadline.weight(.semibold))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(.white)
+                .background(tint)
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            }
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(AppTheme.card)
         .overlay(
-            RoundedRectangle(cornerRadius: 24)
+            RoundedRectangle(cornerRadius: 8)
                 .strokeBorder(tint.opacity(0.18), lineWidth: 1)
         )
-        .clipShape(RoundedRectangle(cornerRadius: 24))
-        .shadow(color: AppTheme.shadow, radius: 18, y: 8)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .shadow(color: AppTheme.shadow, radius: 12, y: 6)
     }
 }
 
@@ -274,11 +310,11 @@ struct SectionCard<Content: View>: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(AppTheme.card)
         .overlay(
-            RoundedRectangle(cornerRadius: 26)
+            RoundedRectangle(cornerRadius: 8)
                 .strokeBorder(accent.opacity(0.14), lineWidth: 1)
         )
-        .clipShape(RoundedRectangle(cornerRadius: 26))
-        .shadow(color: AppTheme.shadow, radius: 18, y: 8)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .shadow(color: AppTheme.shadow, radius: 12, y: 6)
     }
 }
 
@@ -300,10 +336,10 @@ struct MetricPill: View {
         .padding(.vertical, 12)
         .background(tone.opacity(0.12))
         .overlay(
-            Capsule()
+            RoundedRectangle(cornerRadius: 8)
                 .strokeBorder(tone.opacity(0.18), lineWidth: 1)
         )
-        .clipShape(Capsule())
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }
 
@@ -312,7 +348,10 @@ struct ResultJSONCard: View {
     let payload: JSONValue
 
     var body: some View {
-        SectionCard(title: title, systemImage: "curlybraces") {
+        VStack(alignment: .leading, spacing: 10) {
+            Label(title, systemImage: "curlybraces")
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(AppTheme.ink)
             DisclosureGroup("원본 응답 보기") {
                 Text(payload.prettyPrinted())
                     .font(.footnote.monospaced())
@@ -322,6 +361,10 @@ struct ResultJSONCard: View {
             }
             .font(.subheadline.weight(.semibold))
         }
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(.white.opacity(0.72))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }
 
@@ -332,23 +375,18 @@ struct HeroHeader: View {
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            RoundedRectangle(cornerRadius: 30, style: .continuous)
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .fill(
                     LinearGradient(
-                        colors: [AppTheme.ink, accent, AppTheme.mint],
+                        colors: [AppTheme.ink, accent.opacity(0.92)],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
                 )
 
-            Circle()
-                .fill(Color.white.opacity(0.12))
-                .frame(width: 180, height: 180)
-                .offset(x: 170, y: -50)
-
             VStack(alignment: .leading, spacing: 10) {
                 Text(title)
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
+                    .font(.system(size: 30, weight: .bold, design: .rounded))
                     .foregroundStyle(.white)
                 Text(subtitle)
                     .font(.subheadline)
@@ -359,7 +397,7 @@ struct HeroHeader: View {
         }
         .frame(maxWidth: .infinity)
         .frame(height: ResponsiveLayout.heroHeight)
-        .shadow(color: accent.opacity(0.22), radius: 20, y: 10)
+        .shadow(color: accent.opacity(0.18), radius: 16, y: 8)
     }
 }
 
@@ -379,10 +417,10 @@ struct AppTextField: View {
                 .padding(.vertical, 13)
                 .background(.white.opacity(0.82))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 16)
+                    RoundedRectangle(cornerRadius: 8)
                         .strokeBorder(AppTheme.sky.opacity(0.12), lineWidth: 1)
                 )
-                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
         }
     }
 }
@@ -404,15 +442,16 @@ struct InsightBanner: View {
             Text(detail)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
         }
         .padding(18)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .fill(.white.opacity(0.72))
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 24)
+            RoundedRectangle(cornerRadius: 8)
                 .strokeBorder(accent.opacity(0.16), lineWidth: 1)
         )
     }
@@ -422,6 +461,7 @@ struct ActionButton: View {
     let title: String
     var systemImage: String = "arrow.right"
     var accent: Color = AppTheme.sky
+    var isLoading = false
     let action: () -> Void
 
     var body: some View {
@@ -430,15 +470,22 @@ struct ActionButton: View {
                 Text(title)
                     .fontWeight(.semibold)
                 Spacer()
-                Image(systemName: systemImage)
+                if isLoading {
+                    ProgressView()
+                        .tint(.white)
+                } else {
+                    Image(systemName: systemImage)
+                }
             }
             .padding(.horizontal, 18)
             .padding(.vertical, 14)
             .background(accent)
             .foregroundStyle(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         }
         .buttonStyle(.plain)
+        .disabled(isLoading)
+        .opacity(isLoading ? 0.78 : 1)
     }
 }
 
@@ -452,7 +499,7 @@ struct CourseSpotlightCard: View {
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .fill(
                     LinearGradient(
                         colors: [accent.opacity(0.16), .white.opacity(0.9), AppTheme.mint.opacity(0.1)],
@@ -461,13 +508,8 @@ struct CourseSpotlightCard: View {
                     )
                 )
 
-            RoundedRectangle(cornerRadius: 22, style: .continuous)
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .strokeBorder(accent.opacity(0.14), lineWidth: 1)
-
-            Circle()
-                .fill(accent.opacity(0.12))
-                .frame(width: 110, height: 110)
-                .offset(x: 210, y: -14)
 
             VStack(alignment: .leading, spacing: 10) {
                 RouteThumbnail(accent: accent)
@@ -486,13 +528,13 @@ struct CourseSpotlightCard: View {
                         .padding(.horizontal, 10)
                         .padding(.vertical, 7)
                         .background(accent.opacity(0.14))
-                        .clipShape(Capsule())
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
 
                 HStack(spacing: 8) {
-                    Capsule().fill(accent).frame(width: 34, height: 6)
-                    Capsule().fill(AppTheme.mint).frame(width: 22, height: 6)
-                    Capsule().fill(AppTheme.coral.opacity(0.8)).frame(width: 14, height: 6)
+                    RoundedRectangle(cornerRadius: 3).fill(accent).frame(width: 34, height: 6)
+                    RoundedRectangle(cornerRadius: 3).fill(AppTheme.mint).frame(width: 22, height: 6)
+                    RoundedRectangle(cornerRadius: 3).fill(AppTheme.coral.opacity(0.8)).frame(width: 14, height: 6)
                 }
 
                 if let description, !description.isEmpty {
@@ -514,7 +556,7 @@ struct RouteThumbnail: View {
 
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 18, style: .continuous)
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .fill(
                     LinearGradient(
                         colors: [accent.opacity(0.18), AppTheme.mint.opacity(0.16), .white.opacity(0.9)],
@@ -572,7 +614,7 @@ struct SkeletonMetricsRow: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
                 ForEach(0..<3, id: \.self) { _ in
-                    RoundedRectangle(cornerRadius: 24)
+                    RoundedRectangle(cornerRadius: 8)
                         .fill(accent.opacity(0.14))
                         .frame(width: 118, height: 62)
                 }
@@ -586,7 +628,7 @@ struct SkeletonChartCard: View {
 
     var body: some View {
         SectionCard(title: "로딩 중", systemImage: "chart.xyaxis.line", accent: accent) {
-            RoundedRectangle(cornerRadius: 18)
+            RoundedRectangle(cornerRadius: 8)
                 .fill(accent.opacity(0.12))
                 .frame(height: ResponsiveLayout.chartHeight)
         }
@@ -657,9 +699,49 @@ struct TagWrap: View {
                             .padding(.horizontal, 10)
                             .padding(.vertical, 8)
                             .background(accent.opacity(0.1))
-                            .clipShape(Capsule())
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
                     Spacer(minLength: 0)
+                }
+            }
+        }
+    }
+
+    private func chunked(_ items: [String], size: Int) -> [[String]] {
+        stride(from: 0, to: items.count, by: size).map {
+            Array(items[$0 ..< min($0 + size, items.count)])
+        }
+    }
+}
+
+struct SuggestionChips: View {
+    let items: [String]
+    var accent: Color = AppTheme.sky
+    let action: (String) -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            ForEach(chunked(items, size: 2), id: \.self) { row in
+                HStack(alignment: .top, spacing: 8) {
+                    ForEach(row, id: \.self) { item in
+                        Button {
+                            action(item)
+                        } label: {
+                            Text(item)
+                                .font(.footnote.weight(.medium))
+                                .multilineTextAlignment(.leading)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 8)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(accent.opacity(0.1))
+                                .foregroundStyle(AppTheme.ink)
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
+                        }
+                        .buttonStyle(.plain)
+                    }
+                    if row.count == 1 {
+                        Spacer(minLength: 0)
+                    }
                 }
             }
         }

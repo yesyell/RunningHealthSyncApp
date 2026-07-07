@@ -10,9 +10,10 @@ struct RecommendationView: View {
     var body: some View {
         AppScreen(
             title: "추천 코스",
-            subtitle: "위치와 날씨를 기준으로 코스, 권장 페이스, cold tips를 보여줍니다.",
+            subtitle: "현재 조건에 맞는 코스와 권장 페이스를 빠르게 확인합니다.",
             state: viewModel.state,
-            accent: AppTheme.sky
+            accent: AppTheme.sky,
+            onRetry: { Task { await viewModel.load() } }
         ) {
             InsightBanner(
                 eyebrow: "코스 추천",
@@ -27,7 +28,7 @@ struct RecommendationView: View {
                     AppTextField(title: "위도", text: $viewModel.latitude, keyboard: .decimalPad)
                     AppTextField(title: "경도", text: $viewModel.longitude, keyboard: .decimalPad)
                 }
-                ActionButton(title: "추천 받기", systemImage: "map.fill", accent: AppTheme.sky) {
+                ActionButton(title: "추천 받기", systemImage: "map.fill", accent: AppTheme.sky, isLoading: viewModel.state.isLoading) {
                     Task { await viewModel.load() }
                 }
             }
@@ -59,7 +60,7 @@ struct RecommendationView: View {
                 }
 
                 if !response.coldTips.isEmpty {
-                    SectionCard(title: "Cold Tips", systemImage: "snowflake", accent: AppTheme.coral) {
+                    SectionCard(title: "추운 날 팁", systemImage: "snowflake", accent: AppTheme.coral) {
                         TagWrap(items: response.coldTips, accent: AppTheme.coral)
                     }
                 }

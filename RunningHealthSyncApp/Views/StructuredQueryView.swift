@@ -10,14 +10,15 @@ struct StructuredQueryView: View {
     var body: some View {
         AppScreen(
             title: "구조화 조회",
-            subtitle: "`health_query`를 metric / period / limit 기반으로 직접 호출합니다.",
+            subtitle: "지표와 기간을 골라 러닝 기록을 표 형태로 확인합니다.",
             state: viewModel.state,
-            accent: AppTheme.mint
+            accent: AppTheme.mint,
+            onRetry: { Task { await viewModel.load() } }
         ) {
             InsightBanner(
-                eyebrow: "직접 조회",
-                headline: "도구 스키마 기반으로 구조화 호출",
-                detail: "metric, period, limit를 바꾸면서 MCP가 반환하는 실제 데이터를 바로 확인할 수 있습니다.",
+                eyebrow: "상세 조회",
+                headline: "보고 싶은 지표만 골라 확인하세요",
+                detail: "페이스, 주간 거리, 심박처럼 필요한 항목을 기간별로 비교합니다.",
                 accent: AppTheme.mint
             )
 
@@ -43,18 +44,18 @@ struct StructuredQueryView: View {
                     Slider(value: $viewModel.limit, in: 1 ... 12, step: 1)
                 }
 
-                ActionButton(title: "조회 실행", systemImage: "bolt.horizontal.circle", accent: AppTheme.mint) {
+                ActionButton(title: "조회하기", systemImage: "bolt.horizontal.circle", accent: AppTheme.mint, isLoading: viewModel.state.isLoading) {
                     Task { await viewModel.load() }
                 }
             }
 
             if let response = viewModel.response {
-                SectionCard(title: "응답 메타", systemImage: "shippingbox", accent: AppTheme.sky) {
+                SectionCard(title: "조회 요약", systemImage: "shippingbox", accent: AppTheme.sky) {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            MetricPill(title: "mode", value: response.query.mode, tone: AppTheme.sky)
-                            MetricPill(title: "rows", value: "\(response.context.rowCount)", tone: AppTheme.mint)
-                            MetricPill(title: "goal", value: response.context.userGoal ?? "-", tone: AppTheme.coral)
+                            MetricPill(title: "조회 방식", value: response.query.mode, tone: AppTheme.sky)
+                            MetricPill(title: "결과 수", value: "\(response.context.rowCount)", tone: AppTheme.mint)
+                            MetricPill(title: "목표", value: response.context.userGoal ?? "-", tone: AppTheme.coral)
                         }
                     }
                 }
@@ -70,13 +71,13 @@ struct StructuredQueryView: View {
                         .padding(14)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background(.white.opacity(0.62))
-                        .clipShape(RoundedRectangle(cornerRadius: 18))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
                 }
 
                 if !viewModel.tools.isEmpty {
-                    SectionCard(title: "사용 가능한 Tools", systemImage: "wrench.and.screwdriver", accent: AppTheme.coral) {
-                        TagWrap(items: viewModel.tools.map(\.name), accent: AppTheme.coral)
+                    SectionCard(title: "사용 가능한 분석", systemImage: "wrench.and.screwdriver", accent: AppTheme.coral) {
+                        TagWrap(items: viewModel.tools.map { displayName(for: $0.name) }, accent: AppTheme.coral)
                     }
                 }
             }
@@ -86,6 +87,23 @@ struct StructuredQueryView: View {
             if case .idle = viewModel.state {
                 await viewModel.loadInitial()
             }
+        }
+    }
+
+    private func displayName(for tool: String) -> String {
+        switch tool {
+        case "health_query":
+            return "기록 조회"
+        case "health_interpret":
+            return "질문 이해"
+        case "health_report":
+            return "리포트"
+        case "running_recommend":
+            return "코스 추천"
+        case "health_insight":
+            return "추세 분석"
+        default:
+            return tool
         }
     }
 }

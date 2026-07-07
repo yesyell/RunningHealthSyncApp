@@ -11,9 +11,10 @@ struct InsightView: View {
     var body: some View {
         AppScreen(
             title: "인사이트",
-            subtitle: "pace / distance / weekly_mileage / recovery 관점의 추세를 분석합니다.",
+            subtitle: "페이스, 거리, 주간 훈련량, 회복 상태의 변화를 읽기 쉽게 정리합니다.",
             state: viewModel.state,
-            accent: AppTheme.coral
+            accent: AppTheme.coral,
+            onRetry: { Task { await viewModel.load() } }
         ) {
             InsightBanner(
                 eyebrow: "분석",
@@ -36,7 +37,7 @@ struct InsightView: View {
                     Slider(value: $viewModel.weeks, in: 2 ... 12, step: 1)
                 }
 
-                ActionButton(title: "인사이트 조회", systemImage: "waveform.path.ecg", accent: AppTheme.coral) {
+                ActionButton(title: "인사이트 조회", systemImage: "waveform.path.ecg", accent: AppTheme.coral, isLoading: viewModel.state.isLoading) {
                     Task { await viewModel.load() }
                 }
             }
